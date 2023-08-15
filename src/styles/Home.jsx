@@ -6,21 +6,22 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: var(--color-grey-0);
+  padding: 20px 0px;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 export const Content = styled.div`
   position: relative;
-  /* width: 200px;
-  height: 200px;
-  border-radius: 4px;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
   margin: 20px;
-  background-color: #fff;
+  background-color: var(--color-grey-0);
   width: 300px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-grey-300);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,21 +31,23 @@ export const Content = styled.div`
     font-size: 30px;
     font-weight: 400;
     margin: 0 0 10px;
+    color: var(--color-brand-500);
   }
   p {
     font-weight: 300;
     font-size: 16px;
     margin: 0 0 10px;
+    color: var(--color-brand-500);
   }
   span {
     font-weight: 600;
     font-size: 18px;
-    color: #008000;
+    color: var(--color-green-700);
   }
   strong {
     text-align: start;
     width: fit-content;
-    color: #ccc;
+    color: var(--color-grey-300);
     font-size: 16px;
     font-weight: 100;
     text-align: center;
@@ -54,8 +57,8 @@ export const Content = styled.div`
     text-align: center;
     width: 25px;
     border-radius: 100%;
-    background-color: #ffffff;
-    color: #ff6b6b;
+    background-color: var(--color-grey-0);
+    color: var(--color-red-700);
     border: solid red 2px;
     padding: 5px;
     /* padding: 12px 25px; */
@@ -69,8 +72,8 @@ export const Content = styled.div`
     transition: background-color 0.3s ease-in-out;
 
     &:hover {
-      background-color: #ff6b6b;
-      color: #ffffff;
+      background-color: var(--color-red-800);
+      color: var(--color-grey-0);
     }
   }
 `;

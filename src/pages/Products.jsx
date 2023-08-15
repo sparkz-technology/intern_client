@@ -45,15 +45,15 @@ const Pagination = styled.div`
     height: 30px;
     border: none;
     border-radius: 5px;
-    background-color: #6c63ff;
-    color: #fff;
+    background-color: var(--color-indigo-700);
+    color: var(--color-grey-0);
     margin: 10px;
     cursor: pointer;
   }
   span {
     width: 30px;
     height: 30px;
-    border: 1px solid #6c63ff;
+    border: 1px solid var(--color-indigo-700);
     border-radius: 5px;
     display: flex;
     justify-content: center;

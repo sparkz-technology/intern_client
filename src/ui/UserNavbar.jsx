@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import DarkModeToggle from "./DarkModeToggle";
 function UserNavbar() {
   const { logout } = useAuth();
   const user = Cookies.get("user");
@@ -21,6 +22,7 @@ function UserNavbar() {
         </div>
         <Nav>
           <li>
+            <DarkModeToggle />
             <span>
               Welcome !<strong> {user}</strong>{" "}
             </span>
@@ -35,14 +37,14 @@ function UserNavbar() {
 export default UserNavbar;
 
 const Container = styled.div`
-  background-color: #fff;
+  background-color: var(--color-grey-0);
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 999;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
   font-size: 20px;
   font-weight: 600;
   a {
@@ -51,6 +53,19 @@ const Container = styled.div`
   span {
     font-size: 15px;
     font-weight: 400;
+    color: var(--color-indigo-700);
+  }
+  strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-brand-900);
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 10px;
+    div {
+      margin-bottom: 10px;
+    }
   }
 `;
 const Nav = styled.ul`
@@ -72,17 +87,17 @@ const Nav = styled.ul`
   }
 `;
 const Button = styled.button`
-  background-color: #fff;
-  border: 1px solid #6c63ff;
-  color: #6c63ff;
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-indigo-700);
+  color: var(--color-indigo-700);
   padding: 10px 20px;
   font-weight: 800;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {
-    background-color: #6c63ff;
-    color: #fff;
+    background-color: var(--color-indigo-700);
+    color: var(--color-grey-0);
   }
   &:focus {
     outline: none;
@@ -90,7 +105,7 @@ const Button = styled.button`
 `;
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: #6c63ff;
+  color: var(--color-indigo-700);
   padding: 0.5rem;
   margin-right: 20px;
   cursor: pointer;
@@ -98,7 +113,7 @@ const StyledNavLink = styled(NavLink)`
   font-weight: 100;
   margin-left: 10px;
   &.active {
-    border: solid #6c63ff;
+    border: solid var(--color-indigo-700);
     border-top: 15px;
     border-left: 15px;
     border-right: 15px;

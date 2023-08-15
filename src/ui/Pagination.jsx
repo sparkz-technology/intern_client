@@ -15,16 +15,19 @@ const PageLink = styled.button`
   width: 2rem;
   padding: 10px 15px;
   margin: 0 5px;
-  color: #333;
-  background-color: ${(props) => (props.isActive ? "#007bff" : "transparent")};
-  border: 1px solid #ccc;
+  color: var(--color-grey-900);
+  background-color: ${(props) =>
+    props.isActive ? "var(--color-indigo-700)" : "transparent"};
+  border: 1px solid var(--color-grey-300);
   border-radius: 4px;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: #f4f4f4; // Use a different color for hover state
+    background-color: var(
+      --color-grey-50
+    ); // Use a different color for hover state
   }
 `;
 

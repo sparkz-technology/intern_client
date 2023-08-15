@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: #fff;
+  background-color: var(--color-grey-0);
   display: flex;
   justify-content: space-between;
   padding: 0px 20px;
@@ -9,9 +9,10 @@ export const Container = styled.div`
   position: sticky;
   top: 0;
   z-index: 999;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   font-size: 20px;
   font-weight: 600;
+
   a {
     text-decoration: none;
   }

@@ -1,7 +1,13 @@
 import { styled } from "styled-components";
 import Navbar from "../ui/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <Navbar />
@@ -13,7 +19,7 @@ function Home() {
             <br />
             into reality and hones itself to perfection
           </h3>
-          <button>Get started</button>
+          <button onClick={handleLogin}>Get started</button>
         </StylesHome>
       </Container>
     </>
@@ -27,14 +33,14 @@ const StylesHome = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
-  min-height: calc(100vh - 70px);
+  background-color: var(--color-grey-0);
+  min-height: calc(100vh - 64px);
   button {
     width: 15%;
     padding: 1rem;
     border-radius: 10px;
-    background-color: #6c63ff;
-    color: #ffffff;
+    background-color: var(--color-indigo-700);
+    color: var(--color-grey-0);
     border: none;
     border-radius: 8px;
     padding: 12px 25px;
@@ -46,7 +52,7 @@ const StylesHome = styled.div`
     transition: background-color 0.3s ease-in-out;
 
     &:hover {
-      background-color: #564dff;
+      background-color: var(--color-indigo-700);
     }
 
     @media (max-width: 768px) {
@@ -59,12 +65,14 @@ const StylesHome = styled.div`
   h1 {
     font-size: 100px;
     font-weight: 200;
+    color: var(--color-indigo-700);
   }
 
   h3 {
     text-align: center;
     font-size: 25px;
     font-weight: 300;
+    color: var(--color-indigo-700);
   }
 `;
 

@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Row, FormContainer } from "../styles/Form";
 import { toast } from "react-hot-toast";
+import styled from "styled-components";
 
 const schema = yup.object().shape({
   title: yup
@@ -55,51 +56,57 @@ function AddProduct() {
 
   return (
     <>
-      <FormContainer onSubmit={handleSubmit(onSubmit)} size="4rem auto">
-        <h1>Add Product</h1>
-        <Row>
-          <label>Title</label>
-          <Controller
-            name="title"
-            control={control}
-            render={({ field }) => (
-              <input type="text" placeholder="Title" {...field} />
-            )}
-          />
-          {errors.title && <p>{errors.title.message}</p>}{" "}
-        </Row>
-        <Row>
-          <label>Price</label>
-          <Controller
-            name="price"
-            control={control}
-            render={({ field }) => (
-              <input type="number" placeholder="price" {...field} />
-            )}
-          />
-          {errors.price && <p>{errors.price.message}</p>}{" "}
-        </Row>
-        <Row>
-          <label>Content</label>
-          <Controller
-            name="content"
-            control={control}
-            render={({ field }) => (
-              <textarea
-                type="text"
-                placeholder="Content"
-                maxLength={200}
-                {...field}
-              />
-            )}
-          />
-          {errors.content && <p>{errors.content.message}</p>}{" "}
-        </Row>
+      <Container>
+        <FormContainer onSubmit={handleSubmit(onSubmit)} size="4rem auto">
+          <h1>Add Product</h1>
+          <Row>
+            <label>Title</label>
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <input type="text" placeholder="Title" {...field} />
+              )}
+            />
+            {errors.title && <p>{errors.title.message}</p>}{" "}
+          </Row>
+          <Row>
+            <label>Price</label>
+            <Controller
+              name="price"
+              control={control}
+              render={({ field }) => (
+                <input type="number" placeholder="price" {...field} />
+              )}
+            />
+            {errors.price && <p>{errors.price.message}</p>}{" "}
+          </Row>
+          <Row>
+            <label>Content</label>
+            <Controller
+              name="content"
+              control={control}
+              render={({ field }) => (
+                <textarea
+                  type="text"
+                  placeholder="Content"
+                  maxLength={200}
+                  {...field}
+                />
+              )}
+            />
+            {errors.content && <p>{errors.content.message}</p>}{" "}
+          </Row>
 
-        <button type="submit">Add Product</button>
-      </FormContainer>
+          <button type="submit">Add Product</button>
+        </FormContainer>
+      </Container>
     </>
   );
 }
 
 export default AddProduct;
+
+const Container = styled.div`
+  background-color: var(--color-grey-0);
+`;
