@@ -16,6 +16,11 @@ const schema = yup.object().shape({
     .min(8, "Content must be at least 8 characters")
     .max(200, "Content must be at most 40 characters")
     .required("Content is required"), // Update the error message
+  price: yup
+    .number()
+    .min(1, "Price must be at least 1")
+    .max(100000, "Price must be at most 100000")
+    .required("Price is required"), // Update the error message
 });
 
 function AddProduct() {
@@ -62,6 +67,17 @@ function AddProduct() {
             )}
           />
           {errors.title && <p>{errors.title.message}</p>}{" "}
+        </Row>
+        <Row>
+          <label>Price</label>
+          <Controller
+            name="price"
+            control={control}
+            render={({ field }) => (
+              <input type="number" placeholder="price" {...field} />
+            )}
+          />
+          {errors.price && <p>{errors.price.message}</p>}{" "}
         </Row>
         <Row>
           <label>Content</label>

@@ -1,91 +1,62 @@
 import { useProducts } from "../hooks/useProducts";
-import {
-  Container,
-  Content,
-  PaginationContainer,
-  PaginationButton,
-  PageWrapper,
-  FixedPaginationContainer,
-} from "../styles/Home";
+import { Container, Content } from "../styles/Home";
+import styled from "styled-components";
 
 function Products() {
-  const [products, currentPage, totalPages, handlePageChange] = useProducts();
-  const maxButtonsToShow = 5; // Maximum number of pagination buttons to show
-
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    const startPage = Math.max(
-      1,
-      currentPage - Math.floor(maxButtonsToShow / 2)
-    );
-    const endPage = Math.min(totalPages, startPage + maxButtonsToShow - 1);
-
-    const addButton = (key, label, page, additionalProps = {}) => {
-      buttons.push(
-        <PaginationButton
-          key={key}
-          active={page === currentPage}
-          onClick={() => handlePageChange(page)}
-          {...additionalProps}
-        >
-          {label}
-        </PaginationButton>
-      );
-    };
-
-    if (startPage > 1) {
-      addButton(1, "1", 1);
-      if (startPage > 2) {
-        buttons.push(<span key="ellipsis-start">...</span>);
-      }
-    }
-
-    for (let page = startPage; page <= endPage; page++) {
-      addButton(page, page, page);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        buttons.push(<span key="ellipsis-end">...</span>);
-      }
-      addButton(totalPages, totalPages, totalPages);
-    }
-
-    return buttons;
-  };
+  const {
+    products,
+    currentPage,
+    handlePreviousPage,
+    handleNextPage,
+    lastPage,
+  } = useProducts();
 
   return (
     <>
-      <PageWrapper>
-        <Container>
-          {products.map((product, index) => (
-            <Content key={index}>
-              <h2>{product.title}</h2>
-              <p>{product.content}</p>
-              <strong>{product.creater}</strong>
-            </Content>
-          ))}
-        </Container>
-        <FixedPaginationContainer>
-          <PaginationContainer>
-            <PaginationButton
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </PaginationButton>
-            {[...renderPaginationButtons()]}
-            <PaginationButton
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </PaginationButton>
-          </PaginationContainer>
-        </FixedPaginationContainer>
-      </PageWrapper>
+      <Container>
+        {products.map((product, index) => (
+          <Content key={index}>
+            <h2>{product.title}</h2>
+            <p>{product.content}</p>
+            <span>Price ${product.price}</span>
+            <strong>Creater:{product.creater}</strong>
+          </Content>
+        ))}
+      </Container>
+      {lastPage !== 1 && (
+        <Pagination>
+          <button onClick={handlePreviousPage}>Previous</button>
+          <span>{currentPage}</span>
+          <button onClick={handleNextPage}>Next</button>
+        </Pagination>
+      )}
     </>
   );
 }
 
 export default Products;
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  button {
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6c63ff;
+    color: #fff;
+    margin: 10px;
+    cursor: pointer;
+  }
+  span {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #6c63ff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

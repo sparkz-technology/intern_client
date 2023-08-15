@@ -1,12 +1,12 @@
 import Axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
+  const [lastPage, setLastPage] = useState(1);
   async function fetchProducts(page) {
     try {
       const res = await Axios.get(
@@ -20,21 +20,30 @@ export function useProducts() {
       const { products: product, currentPage, lastPage } = res.data;
       setProducts(product);
       setCurrentPage(currentPage);
-      setTotalPages(lastPage);
+      setLastPage(lastPage);
     } catch (error) {
+      toast.error("Error fetching products");
       console.error("Error fetching products:", error);
     }
   }
-
-  async function handlePageChange(page) {
-    if (page >= 1 && page <= totalPages) {
-      await fetchProducts(page);
-    }
+  useEffect(() => {
+    fetchProducts(1);
+  }, []);
+  // , handleNextPage
+  async function handlePreviousPage() {
+    if (currentPage === 1) return toast.error("No more products");
+    await fetchProducts(currentPage - 1);
+  }
+  async function handleNextPage() {
+    if (currentPage === lastPage) return toast.error("No more products");
+    await fetchProducts(currentPage + 1);
   }
 
-  useEffect(() => {
-    fetchProducts(currentPage);
-  }, [currentPage]);
-
-  return [products, currentPage, totalPages, handlePageChange];
+  return {
+    products,
+    currentPage,
+    lastPage,
+    handlePreviousPage,
+    handleNextPage,
+  };
 }

@@ -8,6 +8,11 @@ export const Container = styled.div`
   font-size: 20px;
   font-weight: 600;
   height: 100vh;
+  justify-content: center;
+  width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const FormContainer = styled.form`
@@ -43,7 +48,7 @@ export const FormContainer = styled.form`
   }
   textarea {
     padding: 10px 20px;
-    height: 100px;
+    height: 60px;
     border: 1px solid #ccc;
     border-radius: 8px;
     color: #333;

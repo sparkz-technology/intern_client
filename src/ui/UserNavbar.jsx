@@ -21,7 +21,9 @@ function UserNavbar() {
         </div>
         <Nav>
           <li>
-            <span>Welcome ! {user} </span>
+            <span>
+              Welcome !<strong> {user}</strong>{" "}
+            </span>
             <Button onClick={handleLogout}>Logout</Button>
           </li>
         </Nav>
@@ -45,6 +47,10 @@ const Container = styled.div`
   font-weight: 600;
   a {
     text-decoration: none;
+  }
+  span {
+    font-size: 15px;
+    font-weight: 400;
   }
 `;
 const Nav = styled.ul`
@@ -85,8 +91,16 @@ const Button = styled.button`
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: #6c63ff;
-  padding: 10px;
+  padding: 0.5rem;
   margin-right: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: 100;
+  margin-left: 10px;
+  &.active {
+    border: solid #6c63ff;
+    border-top: 15px;
+    border-left: 15px;
+    border-right: 15px;
+  }
 `;
