@@ -4,6 +4,7 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 export const Content = styled.div`
   width: 200px;

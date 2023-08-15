@@ -2,17 +2,17 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import Cookies from "js-cookie";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // Store the isAuthenticated status in a cookie
+  // if authenticated, navigate to the lost used page on refresh
+
   useEffect(() => {
     console.log("ProtectedRoute useEffect:", isAuthenticated);
-    if (!isAuthenticated || Cookies.get("token") === undefined) {
-      navigate("/");
-    }
+    if (!isAuthenticated) navigate("/");
   }, [isAuthenticated, navigate]);
 
   return isAuthenticated ? children : null;

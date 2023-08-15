@@ -2,11 +2,14 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 function UserNavbar() {
   const { logout } = useAuth();
   const user = Cookies.get("user");
+  const navigate = useNavigate();
   const handleLogout = () => {
     logout();
+    navigate("/");
   };
   return (
     <>

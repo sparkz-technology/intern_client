@@ -1,41 +1,92 @@
-import Axios from "axios";
-import { useEffect, useState } from "react";
-import { Container, Content } from "../styles/Home";
-import Cookies from "js-cookie";
-function AdminProducts() {
-  const [products, setProducts] = useState([]); // Renamed state variable
+import { useAdminProduct } from "../hooks/useAdminProduct";
+import {
+  Container,
+  Content,
+  PaginationContainer,
+  PaginationButton,
+  PageWrapper,
+  FixedPaginationContainer,
+} from "../styles/Home";
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await Axios.get("http://localhost:8000/admin/products", {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        });
-        const resData = res.data;
-        console.log(resData);
-        setProducts(resData);
-      } catch (error) {
-        console.error("Error fetching products:", error);
+function Products() {
+  const [products, currentPage, totalPages, handlePageChange] =
+    useAdminProduct();
+  const maxButtonsToShow = 5; // Maximum number of pagination buttons to show
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const startPage = Math.max(
+      1,
+      currentPage - Math.floor(maxButtonsToShow / 2)
+    );
+    const endPage = Math.min(totalPages, startPage + maxButtonsToShow - 1);
+
+    const addButton = (key, label, page, additionalProps = {}) => {
+      buttons.push(
+        <PaginationButton
+          key={key}
+          active={page === currentPage}
+          onClick={() => handlePageChange(page)}
+          {...additionalProps}
+        >
+          {label}
+        </PaginationButton>
+      );
+    };
+
+    if (startPage > 1) {
+      addButton(1, "1", 1);
+      if (startPage > 2) {
+        buttons.push(<span key="ellipsis-start">...</span>);
       }
     }
-    fetchProducts();
-  }, []);
+
+    for (let page = startPage; page <= endPage; page++) {
+      addButton(page, page, page);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(<span key="ellipsis-end">...</span>);
+      }
+      addButton(totalPages, totalPages, totalPages);
+    }
+
+    return buttons;
+  };
 
   return (
     <>
-      <Container>
-        {products.map((product, index) => (
-          <Content key={index}>
-            <h2>{product.title}</h2>
-            <p>{product.content}</p>
-            <strong>{product.creater}</strong>
-          </Content>
-        ))}
-      </Container>
+      <PageWrapper>
+        <Container>
+          {products.map((product, index) => (
+            <Content key={index}>
+              <h2>{product.title}</h2>
+              <p>{product.content}</p>
+              <strong>{product.creater}</strong>
+            </Content>
+          ))}
+        </Container>
+        <FixedPaginationContainer>
+          <PaginationContainer>
+            <PaginationButton
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </PaginationButton>
+            {[...renderPaginationButtons()]}
+            <PaginationButton
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </PaginationButton>
+          </PaginationContainer>
+        </FixedPaginationContainer>
+      </PageWrapper>
     </>
   );
 }
 
-export default AdminProducts;
+export default Products;

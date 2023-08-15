@@ -62,7 +62,7 @@ function Products() {
             <Content key={index}>
               <h2>{product.title}</h2>
               <p>{product.content}</p>
-              <strong>{product.creator}</strong>
+              <strong>{product.creater}</strong>
             </Content>
           ))}
         </Container>
