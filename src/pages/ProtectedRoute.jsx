@@ -12,7 +12,7 @@ function ProtectedRoute({ children }) {
 
   useEffect(() => {
     console.log("ProtectedRoute useEffect:", isAuthenticated);
-    if (!isAuthenticated) navigate("/");
+    if (!isAuthenticated && !localStorage.getItem("token")) navigate("/");
   }, [isAuthenticated, navigate]);
 
   return isAuthenticated ? children : null;
