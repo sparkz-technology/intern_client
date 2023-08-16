@@ -58,7 +58,7 @@ const Container = styled.div`
   strong {
     font-size: 15px;
     font-weight: 600;
-    color: var(--color-brand-900);
+    color: var(--color-brand-500);
   }
   @media (max-width: 768px) {
     flex-direction: column;

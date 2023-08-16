@@ -1,7 +1,8 @@
 import { useAdminProduct } from "../hooks/useAdminProduct";
-import { Container, Content } from "../styles/Home";
+import { Container, Content } from "../styles/Product";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import Spinner from "../ui/Spinner";
 
 function Products() {
   const {
@@ -11,33 +12,46 @@ function Products() {
     handleNextPage,
     lastPage,
     handleDeleteProduct,
+    isLoaded,
   } = useAdminProduct();
   if (products.length === 0) {
     // You can add a navigation element to redirect to the add product page
     return (
-      <Container>
-        <p>
-          No products found.{" "}
-          <StyledNavLink to="/admin-add-product">
-            Add a new product
-          </StyledNavLink>
-        </p>
-      </Container>
+      <>
+        {isLoaded ? (
+          <Spinner />
+        ) : (
+          <Container>
+            <p>
+              No products found.{" "}
+              <StyledNavLink to="/admin-add-product">
+                Add a new product
+              </StyledNavLink>
+            </p>
+          </Container>
+        )}
+      </>
     );
   }
   return (
     <>
-      <Container>
-        {products.map((product, index) => (
-          <Content key={index}>
-            <h2>{product.title}</h2>
-            <p>{product.content}</p>
-            <span>Price ${product.price}</span>
-            <strong>Creater:{product.creater}</strong>
-            <button onClick={() => handleDeleteProduct(product._id)}>X</button>
-          </Content>
-        ))}
-      </Container>
+      {isLoaded ? (
+        <Spinner />
+      ) : (
+        <Container>
+          {products.map((product, index) => (
+            <Content key={index}>
+              <h2>{product.title}</h2>
+              <p>{product.content}</p>
+              <span>Price ${product.price}</span>
+              <strong>Creater:{product.creater}</strong>
+              <button onClick={() => handleDeleteProduct(product._id)}>
+                X
+              </button>
+            </Content>
+          ))}
+        </Container>
+      )}
       {lastPage !== 1 && (
         <Pagination>
           <button onClick={handlePreviousPage}>Previous</button>

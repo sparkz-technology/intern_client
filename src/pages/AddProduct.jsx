@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Row, FormContainer } from "../styles/Form";
 import { toast } from "react-hot-toast";
 import styled from "styled-components";
+import { useState } from "react";
+import Spinner from "../ui/Spinner";
 
 const schema = yup.object().shape({
   title: yup
@@ -25,6 +27,7 @@ const schema = yup.object().shape({
 });
 
 function AddProduct() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -37,6 +40,7 @@ function AddProduct() {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoaded(true);
       const response = await fetch("http://localhost:8000/admin/add-product", {
         method: "POST",
         headers: {
@@ -46,61 +50,80 @@ function AddProduct() {
         body: JSON.stringify(data),
       });
       const product = await response.json();
+      setIsLoaded(false);
       navigate("/admin-products");
       toast.success("Product added successfully");
       console.log(product);
     } catch (err) {
+      setIsLoaded(false);
       toast.error("Something went wrong");
     }
   };
 
   return (
     <>
-      <Container>
-        <FormContainer onSubmit={handleSubmit(onSubmit)} size="4rem auto">
-          <h1>Add Product</h1>
-          <Row>
-            <label>Title</label>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <input type="text" placeholder="Title" {...field} />
-              )}
-            />
-            {errors.title && <p>{errors.title.message}</p>}{" "}
-          </Row>
-          <Row>
-            <label>Price</label>
-            <Controller
-              name="price"
-              control={control}
-              render={({ field }) => (
-                <input type="number" placeholder="price" {...field} />
-              )}
-            />
-            {errors.price && <p>{errors.price.message}</p>}{" "}
-          </Row>
-          <Row>
-            <label>Content</label>
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <textarea
-                  type="text"
-                  placeholder="Content"
-                  maxLength={200}
-                  {...field}
-                />
-              )}
-            />
-            {errors.content && <p>{errors.content.message}</p>}{" "}
-          </Row>
+      {isLoaded ? (
+        <Spinner />
+      ) : (
+        <Container>
+          <FormContainer onSubmit={handleSubmit(onSubmit)} size="4rem auto">
+            <h1>Add Product</h1>
+            <Row>
+              <label>Title</label>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    disabled={isLoaded}
+                    {...field}
+                  />
+                )}
+              />
+              {errors.title && <p>{errors.title.message}</p>}{" "}
+            </Row>
+            <Row>
+              <label>Price</label>
+              <Controller
+                name="price"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    placeholder="price"
+                    disabled={isLoaded}
+                    {...field}
+                  />
+                )}
+              />
+              {errors.price && <p>{errors.price.message}</p>}{" "}
+            </Row>
+            <Row>
+              <label>Content</label>
+              <Controller
+                name="content"
+                control={control}
+                render={({ field }) => (
+                  <textarea
+                    type="text"
+                    placeholder="Content"
+                    maxLength={200}
+                    disabled={isLoaded}
+                    {...field}
+                  />
+                )}
+              />
+              {errors.content && <p>{errors.content.message}</p>}{" "}
+            </Row>
 
-          <button type="submit">Add Product</button>
-        </FormContainer>
-      </Container>
+            <button type="submit" disabled={isLoaded}>
+              Add Product
+            </button>
+          </FormContainer>
+        </Container>
+      )}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { useProducts } from "../hooks/useProducts";
-import { Container, Content } from "../styles/Home";
+import { Container, Content } from "../styles/Product";
 import styled from "styled-components";
+import Spinner from "../ui/Spinner";
 
 function Products() {
   const {
@@ -9,10 +10,12 @@ function Products() {
     handlePreviousPage,
     handleNextPage,
     lastPage,
+    isLoading,
   } = useProducts();
 
   return (
     <>
+      {isLoading && <Spinner />}
       <Container>
         {products.map((product, index) => (
           <Content key={index}>

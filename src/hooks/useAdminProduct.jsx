@@ -4,11 +4,13 @@ import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 export function useAdminProduct() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   async function fetchProducts(page) {
     try {
+      setIsLoaded(true);
       const res = await Axios.get(
         `http://localhost:8000/admin/products?page=${page}`,
         {
@@ -22,7 +24,9 @@ export function useAdminProduct() {
       setProducts(product);
       setCurrentPage(currentPage);
       setLastPage(lastPage);
+      setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
       // if the status code is 404 show no product
       if (error.response.status === 404) {
         return setProducts([]);
@@ -65,5 +69,6 @@ export function useAdminProduct() {
     handlePreviousPage,
     handleNextPage,
     handleDeleteProduct,
+    isLoaded,
   };
 }

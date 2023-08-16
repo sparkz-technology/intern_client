@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function useProducts() {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   async function fetchProducts(page) {
     try {
+      setIsLoading(true);
       const res = await Axios.get(
         `http://localhost:8000/product/getproducts?page=${page}`,
         {
@@ -21,7 +23,9 @@ export function useProducts() {
       setProducts(product);
       setCurrentPage(currentPage);
       setLastPage(lastPage);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       toast.error("Error fetching products");
       console.error("Error fetching products:", error);
     }
@@ -45,5 +49,6 @@ export function useProducts() {
     lastPage,
     handlePreviousPage,
     handleNextPage,
+    isLoading,
   };
 }
